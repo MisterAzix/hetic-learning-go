@@ -1,5 +1,7 @@
-package hetic_learning_go
+package main
+
+import "database/sql"
 
 func main() {
-
+	db, err := sql.Open("mysql", "root:root@tcp()")
 }
