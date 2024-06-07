@@ -57,7 +57,7 @@ func (userRepository *UserRepository) Save(user model.User) model.User {
 	return user
 }
 
-func (userRepository *UserRepository) Update(user model.User) model.User {
+func (userRepository *UserRepository) UpdateById(user model.User) model.User {
 	_, err := userRepository.db.Exec("UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ?, address = ? WHERE id = ?", user.Firstname, user.Lastname, user.Email, user.Phone, user.Address, user.Id)
 	if err != nil {
 		panic(err)

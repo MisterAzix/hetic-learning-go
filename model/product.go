@@ -9,7 +9,7 @@ type Product struct {
 	IsActive    bool
 }
 
-func (p *Product) NewProduct(id string, title string, description string, price float64, quantity int) *Product {
+func NewProduct(id string, title string, description string, price float64, quantity int) *Product {
 	return &Product{
 		Id:          id,
 		Title:       title,

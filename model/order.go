@@ -13,7 +13,7 @@ type Order struct {
 	OrderAt    time.Time
 }
 
-func (o *Order) NewOrder(id string, userId string, productId string, quantity int, totalPrice float64) *Order {
+func NewOrder(id string, userId string, productId string, quantity int, totalPrice float64) *Order {
 	return &Order{
 		Id:         id,
 		UserId:     userId,
