@@ -45,7 +45,7 @@ func (orderRepository *OrderRepository) FindById(id string) model.Order {
 }
 
 func (orderRepository *OrderRepository) Save(order model.Order) model.Order {
-	result, err := orderRepository.db.Exec("INSERT INTO orders (id, userId, productId, quantity, totalPrice, orderAt) VALUES (?, ?, ?, ?, ?, ?)", order.Id, order.UserId, order.ProductId, order.Quantity, order.TotalPrice, order.OrderAt)
+	result, err := orderRepository.db.Exec("INSERT INTO orders (id, user_id, product_id, quantity, total_price, order_at) VALUES (?, ?, ?, ?, ?, ?)", order.Id, order.UserId, order.ProductId, order.Quantity, order.TotalPrice, order.OrderAt)
 	if err != nil {
 		panic(err)
 	}

@@ -32,7 +32,7 @@ func migrate(db sql.DB) {
 	if err != nil {
 		panic(err)
 	}
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS orders (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, product_id INT, quantity INT, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (product_id) REFERENCES products(id))")
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS orders (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, product_id INT, quantity INT, total_price DECIMAL(10, 2), order_at DATETIME)")
 	if err != nil {
 		panic(err)
 	}

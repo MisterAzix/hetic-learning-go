@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"hetic-learning-go/model"
 	"hetic-learning-go/repository"
+	"hetic-learning-go/utils"
+	"time"
 )
 
 type ProductService struct {
@@ -38,13 +40,22 @@ func (productService *ProductService) BuyProductById(productId int, quantity int
 	}
 	product.Quantity--
 	productService.productRepository.Update(product)
+
 	order := model.Order{
 		UserId:     userId,
 		ProductId:  productId,
 		Quantity:   quantity,
 		TotalPrice: product.Price * float64(quantity),
+		OrderAt:    time.Now(),
 	}
-	return productService.orderRepository.Save(order), nil
+	order = productService.orderRepository.Save(order)
+
+	err = utils.GenerateOrderPDF(order)
+	if err != nil {
+		return model.Order{}, fmt.Errorf("Error while generating PDF")
+	}
+
+	return order, nil
 }
 
 func (productService *ProductService) GetAll() []model.Product {
