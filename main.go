@@ -11,6 +11,15 @@ import (
 	"os"
 )
 
+func displayWelcomeMessage() {
+	fmt.Println("")
+	fmt.Println("==============================================")
+	fmt.Println("=                                            =")
+	fmt.Println("=   Welcome to the e-commerce application!   =")
+	fmt.Println("=                                            =")
+	fmt.Println("==============================================")
+}
+
 func displayMenu() {
 	fmt.Println("\nMenu:")
 	fmt.Println("1. Add product")
@@ -43,6 +52,8 @@ func main() {
 	log.Println("Services initialized!")
 
 	appHandler := handler.NewHandler(*orderService, *productService, *userService)
+
+	displayWelcomeMessage()
 
 	for {
 		displayMenu()
