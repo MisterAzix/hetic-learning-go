@@ -1,7 +1,7 @@
 # 🚀 HETIC Learning GO 🚀
 
 ## Start the project
-1. Init database
+1. Init database and smtp server
 ```bash
 docker-compose up -d
 ```

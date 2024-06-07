@@ -52,7 +52,12 @@ func (productService *ProductService) BuyProductById(productId int, quantity int
 
 	err = utils.GenerateOrderPDF(order)
 	if err != nil {
-		return model.Order{}, fmt.Errorf("Error while generating PDF")
+		return model.Order{}, fmt.Errorf("Error while generating PDF!")
+	}
+
+	err = utils.SendOrderEmail(order)
+	if err != nil {
+		return model.Order{}, fmt.Errorf("Error while sending email!")
 	}
 
 	return order, nil

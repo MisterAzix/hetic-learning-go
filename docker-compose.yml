@@ -15,6 +15,15 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql:/var/lib/mysql
+  mailhog:
+    platform: linux/x86_64
+    image: mailhog/mailhog
+    container_name: mailhog
+    logging:
+      driver: 'none'
+    ports:
+      - 1025:1025
+      - 8025:8025
 
 volumes:
     mysql:
