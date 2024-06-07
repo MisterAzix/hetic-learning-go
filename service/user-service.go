@@ -29,3 +29,15 @@ func (userService *UserService) Register(firstname string, lastname string, emai
 func (userService *UserService) GetAll() []model.User {
 	return userService.userRepository.FindAll()
 }
+
+func (userService *UserService) UpdateById(id int, firstname string, lastname string, email string, phone string, address string) model.User {
+	user := model.User{
+		Id:        id,
+		Firstname: firstname,
+		Lastname:  lastname,
+		Email:     email,
+		Phone:     phone,
+		Address:   address,
+	}
+	return userService.userRepository.UpdateById(user)
+}

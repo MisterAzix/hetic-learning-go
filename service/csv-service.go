@@ -63,9 +63,11 @@ func (csvService *CSVService) ExportAllOrders() error {
 	orders := csvService.OrderRepository.FindAll()
 	for _, order := range orders {
 		id := strconv.Itoa(order.Id)
+		userId := strconv.Itoa(order.UserId)
+		productId := strconv.Itoa(order.ProductId)
 		quantity := strconv.Itoa(order.Quantity)
 		price := strconv.FormatFloat(order.TotalPrice, 'f', -1, 64)
-		err := writer.Write([]string{id, order.UserId, order.ProductId, quantity, price})
+		err := writer.Write([]string{id, userId, productId, quantity, price})
 		if err != nil {
 			panic(err)
 		}

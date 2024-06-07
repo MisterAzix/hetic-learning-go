@@ -2,6 +2,8 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
 	"hetic-learning-go/model"
 )
 
@@ -34,14 +36,17 @@ func (userRepository *UserRepository) FindAll() []model.User {
 	return users
 }
 
-func (userRepository *UserRepository) FindById(id string) model.User {
+func (userRepository *UserRepository) FindById(id string) (model.User, error) {
 	row := userRepository.db.QueryRow("SELECT * FROM users WHERE id = ?", id)
 	user := model.User{}
 	err := row.Scan(&user.Id, &user.Firstname, &user.Lastname, &user.Email, &user.Phone, &user.Address)
 	if err != nil {
-		panic(err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return user, fmt.Errorf("User with ID %s not found", id)
+		}
+		return user, err
 	}
-	return user
+	return user, nil
 }
 
 func (userRepository *UserRepository) Save(user model.User) model.User {

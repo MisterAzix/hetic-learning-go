@@ -2,6 +2,8 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
 	"hetic-learning-go/model"
 )
 
@@ -34,14 +36,17 @@ func (productRepository *ProductRepository) FindAll() []model.Product {
 	return products
 }
 
-func (productRepository *ProductRepository) FindById(id string) model.Product {
+func (productRepository *ProductRepository) FindById(id int) (model.Product, error) {
 	row := productRepository.db.QueryRow("SELECT * FROM products WHERE id = ?", id)
 	product := model.Product{}
 	err := row.Scan(&product.Id, &product.Title, &product.Description, &product.Price, &product.Quantity)
 	if err != nil {
-		panic(err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return product, fmt.Errorf("Product with ID %d not found", id)
+		}
+		return product, err
 	}
-	return product
+	return product, nil
 }
 
 func (productRepository *ProductRepository) Save(product model.Product) model.Product {
