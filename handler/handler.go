@@ -9,13 +9,15 @@ import (
 )
 
 type Handler struct {
+	CSVService     service.CSVService
 	OrderService   service.OrderService
 	ProductService service.ProductService
 	UserService    service.UserService
 }
 
-func NewHandler(orderService service.OrderService, productService service.ProductService, userService service.UserService) *Handler {
+func NewHandler(csvService service.CSVService, orderService service.OrderService, productService service.ProductService, userService service.UserService) *Handler {
 	return &Handler{
+		CSVService:     csvService,
 		OrderService:   orderService,
 		ProductService: productService,
 		UserService:    userService,
@@ -58,6 +60,15 @@ func (handler *Handler) DeleteProduct() {
 	handler.ProductService.DeactivateProduct(id)
 }
 
+func (handler *Handler) ExportProductsCSV() {
+	err := handler.CSVService.ExportAllProducts()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Products exported successfully!")
+}
+
 func (handler *Handler) AddUser() {
 	firstname := utils.ReadInput("Enter user firstname:")
 	lastname := utils.ReadInput("Enter user lastname:")
@@ -91,6 +102,15 @@ func (handler *Handler) UpdateUser() {
 	handler.UserService.UpdateById(id, firstname, lastname, email, phone, address)
 }
 
+func (handler *Handler) ExportUsersCSV() {
+	err := handler.CSVService.ExportAllUsers()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Users exported successfully!")
+}
+
 func (handler *Handler) BuyProduct() {
 	productId := utils.ReadInt("Enter product ID:")
 	quantity := utils.ReadInt("Enter quantity:")
@@ -103,4 +123,13 @@ func (handler *Handler) BuyProduct() {
 	}
 
 	fmt.Println("Product bought successfully!")
+}
+
+func (handler *Handler) ExportOrdersCSV() {
+	err := handler.CSVService.ExportAllOrders()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Orders exported successfully!")
 }

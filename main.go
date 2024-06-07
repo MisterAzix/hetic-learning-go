@@ -26,10 +26,13 @@ func displayMenu() {
 	fmt.Println("2. Display products")
 	fmt.Println("3. Update product")
 	fmt.Println("4. Delete product")
-	fmt.Println("5. Add user")
-	fmt.Println("6. Display users")
-	fmt.Println("7. Update user")
-	fmt.Println("8. Buy product")
+	fmt.Println("5. Export products to CSV")
+	fmt.Println("6. Add user")
+	fmt.Println("7. Display users")
+	fmt.Println("8. Update user")
+	fmt.Println("9. Export users to CSV")
+	fmt.Println("10. Buy product")
+	fmt.Println("11. Export orders to CSV")
 
 	fmt.Println("0. Exit")
 }
@@ -46,12 +49,13 @@ func main() {
 	log.Println("Repositories initialized!")
 
 	log.Println("Initializing services...")
+	csvService := service.NewCSVService(*userRepository, *productRepository, *orderRepository)
 	orderService := service.NewOrderService(*orderRepository)
 	productService := service.NewProductService(*productRepository, *orderRepository)
 	userService := service.NewUserService(*userRepository)
 	log.Println("Services initialized!")
 
-	appHandler := handler.NewHandler(*orderService, *productService, *userService)
+	appHandler := handler.NewHandler(*csvService, *orderService, *productService, *userService)
 
 	displayWelcomeMessage()
 
@@ -69,13 +73,19 @@ func main() {
 		case 4:
 			appHandler.DeleteProduct()
 		case 5:
-			appHandler.AddUser()
+			appHandler.ExportProductsCSV()
 		case 6:
-			appHandler.DisplayUsers()
+			appHandler.AddUser()
 		case 7:
-			appHandler.UpdateUser()
+			appHandler.DisplayUsers()
 		case 8:
+			appHandler.UpdateUser()
+		case 9:
+			appHandler.ExportUsersCSV()
+		case 10:
 			appHandler.BuyProduct()
+		case 11:
+			appHandler.ExportOrdersCSV()
 		case 0:
 			os.Exit(0)
 		}

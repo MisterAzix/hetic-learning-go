@@ -3,12 +3,11 @@ package service
 import (
 	"encoding/csv"
 	"hetic-learning-go/repository"
-	"os"
+	"hetic-learning-go/utils"
 	"strconv"
 )
 
 type CSVService struct {
-	csvFile *os.File
 	repository.UserRepository
 	repository.ProductRepository
 	repository.OrderRepository
@@ -23,7 +22,12 @@ func NewCSVService(userRepository repository.UserRepository, productRepository r
 }
 
 func (csvService *CSVService) ExportAllUsers() error {
-	writer := csv.NewWriter(csvService.csvFile)
+	usersCSV, err := utils.CreateFile("users.csv")
+	if err != nil {
+		return err
+	}
+
+	writer := csv.NewWriter(usersCSV)
 	defer writer.Flush()
 
 	users := csvService.UserRepository.FindAll()
@@ -39,7 +43,12 @@ func (csvService *CSVService) ExportAllUsers() error {
 }
 
 func (csvService *CSVService) ExportAllProducts() error {
-	writer := csv.NewWriter(csvService.csvFile)
+	productsCSV, err := utils.CreateFile("products.csv")
+	if err != nil {
+		return err
+	}
+
+	writer := csv.NewWriter(productsCSV)
 	defer writer.Flush()
 
 	products := csvService.ProductRepository.FindAll()
@@ -57,7 +66,12 @@ func (csvService *CSVService) ExportAllProducts() error {
 }
 
 func (csvService *CSVService) ExportAllOrders() error {
-	writer := csv.NewWriter(csvService.csvFile)
+	ordersCSV, err := utils.CreateFile("products.csv")
+	if err != nil {
+		return err
+	}
+
+	writer := csv.NewWriter(ordersCSV)
 	defer writer.Flush()
 
 	orders := csvService.OrderRepository.FindAll()
