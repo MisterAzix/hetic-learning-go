@@ -16,7 +16,7 @@ func NewOrderRepository(db *sql.DB) *OrderRepository {
 }
 
 func (orderRepository *OrderRepository) FindAll() []model.Order {
-	rows, err := orderRepository.db.Query("SELECT * FROM order")
+	rows, err := orderRepository.db.Query("SELECT * FROM orders")
 	if err != nil {
 		panic(err)
 	}
@@ -35,7 +35,7 @@ func (orderRepository *OrderRepository) FindAll() []model.Order {
 }
 
 func (orderRepository *OrderRepository) FindById(id string) model.Order {
-	row := orderRepository.db.QueryRow("SELECT * FROM order WHERE id = ?", id)
+	row := orderRepository.db.QueryRow("SELECT * FROM orders WHERE id = ?", id)
 	order := model.Order{}
 	err := row.Scan(&order.Id, &order.UserId, &order.ProductId, &order.Quantity, &order.TotalPrice, &order.OrderAt)
 	if err != nil {
@@ -45,7 +45,7 @@ func (orderRepository *OrderRepository) FindById(id string) model.Order {
 }
 
 func (orderRepository *OrderRepository) Save(order model.Order) model.Order {
-	result, err := orderRepository.db.Exec("INSERT INTO order (id, userId, productId, quantity, totalPrice, orderAt) VALUES (?, ?, ?, ?, ?, ?)", order.Id, order.UserId, order.ProductId, order.Quantity, order.TotalPrice, order.OrderAt)
+	result, err := orderRepository.db.Exec("INSERT INTO orders (id, userId, productId, quantity, totalPrice, orderAt) VALUES (?, ?, ?, ?, ?, ?)", order.Id, order.UserId, order.ProductId, order.Quantity, order.TotalPrice, order.OrderAt)
 	if err != nil {
 		panic(err)
 	}
@@ -53,6 +53,6 @@ func (orderRepository *OrderRepository) Save(order model.Order) model.Order {
 	if err != nil {
 		panic(err)
 	}
-	order.Id = string(id)
+	order.Id = int(id)
 	return order
 }

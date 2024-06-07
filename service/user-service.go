@@ -25,3 +25,7 @@ func (userService *UserService) Register(firstname string, lastname string, emai
 	}
 	return userService.userRepository.Save(user)
 }
+
+func (userService *UserService) GetAll() []model.User {
+	return userService.userRepository.FindAll()
+}

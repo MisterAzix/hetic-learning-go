@@ -1,7 +1,7 @@
 package model
 
 type Product struct {
-	Id          string
+	Id          int
 	Title       string
 	Description string
 	Price       float64
@@ -9,7 +9,7 @@ type Product struct {
 	IsActive    bool
 }
 
-func NewProduct(id string, title string, description string, price float64, quantity int) *Product {
+func NewProduct(id int, title string, description string, price float64, quantity int) *Product {
 	return &Product{
 		Id:          id,
 		Title:       title,

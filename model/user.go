@@ -1,7 +1,7 @@
 package model
 
 type User struct {
-	Id        string
+	Id        int
 	Firstname string
 	Lastname  string
 	Email     string
@@ -9,7 +9,7 @@ type User struct {
 	Address   string
 }
 
-func NewUser(id string, firstname string, lastname string, email string, phone string, address string) *User {
+func NewUser(id int, firstname string, lastname string, email string, phone string, address string) *User {
 	return &User{
 		Id:        id,
 		Firstname: firstname,

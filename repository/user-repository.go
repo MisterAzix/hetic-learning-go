@@ -16,7 +16,7 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 }
 
 func (userRepository *UserRepository) FindAll() []model.User {
-	rows, err := userRepository.db.Query("SELECT * FROM user")
+	rows, err := userRepository.db.Query("SELECT * FROM users")
 	if err != nil {
 		panic(err)
 	}
@@ -35,7 +35,7 @@ func (userRepository *UserRepository) FindAll() []model.User {
 }
 
 func (userRepository *UserRepository) FindById(id string) model.User {
-	row := userRepository.db.QueryRow("SELECT * FROM user WHERE id = ?", id)
+	row := userRepository.db.QueryRow("SELECT * FROM users WHERE id = ?", id)
 	user := model.User{}
 	err := row.Scan(&user.Id, &user.Firstname, &user.Lastname, &user.Email, &user.Phone, &user.Address)
 	if err != nil {
@@ -45,7 +45,7 @@ func (userRepository *UserRepository) FindById(id string) model.User {
 }
 
 func (userRepository *UserRepository) Save(user model.User) model.User {
-	result, err := userRepository.db.Exec("INSERT INTO user (id, firstname, lastname, email, phone, address) VALUES (?, ?, ?, ?, ?, ?)", user.Id, user.Firstname, user.Lastname, user.Email, user.Phone, user.Address)
+	result, err := userRepository.db.Exec("INSERT INTO users (id, firstname, lastname, email, phone, address) VALUES (?, ?, ?, ?, ?, ?)", user.Id, user.Firstname, user.Lastname, user.Email, user.Phone, user.Address)
 	if err != nil {
 		panic(err)
 	}
@@ -53,12 +53,12 @@ func (userRepository *UserRepository) Save(user model.User) model.User {
 	if err != nil {
 		panic(err)
 	}
-	user.Id = string(id)
+	user.Id = int(id)
 	return user
 }
 
 func (userRepository *UserRepository) UpdateById(user model.User) model.User {
-	_, err := userRepository.db.Exec("UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ?, address = ? WHERE id = ?", user.Firstname, user.Lastname, user.Email, user.Phone, user.Address, user.Id)
+	_, err := userRepository.db.Exec("UPDATE users SET firstname = ?, lastname = ?, email = ?, phone = ?, address = ? WHERE id = ?", user.Firstname, user.Lastname, user.Email, user.Phone, user.Address, user.Id)
 	if err != nil {
 		panic(err)
 	}

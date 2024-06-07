@@ -28,7 +28,8 @@ func (csvService *CSVService) ExportAllUsers() error {
 
 	users := csvService.UserRepository.FindAll()
 	for _, user := range users {
-		err := writer.Write([]string{user.Id, user.Firstname, user.Lastname, user.Email, user.Phone, user.Address})
+		id := strconv.Itoa(user.Id)
+		err := writer.Write([]string{id, user.Firstname, user.Lastname, user.Email, user.Phone, user.Address})
 		if err != nil {
 			panic(err)
 		}
@@ -43,9 +44,10 @@ func (csvService *CSVService) ExportAllProducts() error {
 
 	products := csvService.ProductRepository.FindAll()
 	for _, product := range products {
-		newQuantity := strconv.Itoa(product.Quantity)
-		newPrice := strconv.FormatFloat(product.Price, 'f', -1, 64)
-		err := writer.Write([]string{product.Id, product.Title, product.Description, newQuantity, newPrice})
+		id := strconv.Itoa(product.Id)
+		quantity := strconv.Itoa(product.Quantity)
+		price := strconv.FormatFloat(product.Price, 'f', -1, 64)
+		err := writer.Write([]string{id, product.Title, product.Description, quantity, price})
 		if err != nil {
 			panic(err)
 		}
@@ -60,9 +62,10 @@ func (csvService *CSVService) ExportAllOrders() error {
 
 	orders := csvService.OrderRepository.FindAll()
 	for _, order := range orders {
-		newQuantity := strconv.Itoa(order.Quantity)
-		newTotalPrice := strconv.FormatFloat(order.TotalPrice, 'f', -1, 64)
-		err := writer.Write([]string{order.Id, order.UserId, order.ProductId, newQuantity, newTotalPrice})
+		id := strconv.Itoa(order.Id)
+		quantity := strconv.Itoa(order.Quantity)
+		price := strconv.FormatFloat(order.TotalPrice, 'f', -1, 64)
+		err := writer.Write([]string{id, order.UserId, order.ProductId, quantity, price})
 		if err != nil {
 			panic(err)
 		}
